@@ -60,22 +60,31 @@ function getDescriptionText($line) {
 
 function getGlobalStatus($data) {
     $status = 'S&iacute; :)';
+    $funcionando = 0;
+
     foreach ($data as $line => $obj) {
         if ($obj->status === 'DELAYED') {
             $status = 'Casi :/';
+            $funcionando++;
         }
         if ($obj->status === 'REDUCED') {
             $status = 'Casi :/';
+            $funcionando++;
         }
-        if ($obj->status === 'CANCELLED') {
-            $status = 'No :(';
-            break;
-        }
+        // if ($obj->status === 'CANCELLED') {
+        //     $status = 'No :(';
+        // }
         if ($obj->status === 'SLEEPING') {
             $status = 'Shh...';
+            $funcionando++; // Asi el checkeo despues no da 'NO'
             break;
         }
     }
+
+    if ($funcionando == 0) {
+      $status = 'No :(';
+    }
+
     return $status;
 }
 
@@ -110,7 +119,9 @@ $reduced->{'status'} = 'REDUCED';
 $reduced->{'message'} = 'Servicio limitado entre estaciones CARABOBO y PIEDRAS 09:10 hs.'; 
  
 
-$data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
+$data = json_decode(file_get_contents('http://haysubtes.com/subte.php'), true);
+$data["A"] = $interrumpido;
+$data["B"] = $reduced;
 
 ?><!DOCTYPE html>
 <html>
@@ -150,53 +161,53 @@ $data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
     </header>
 
     <div class="estado-general">
-      <?php echo getGlobalStatus((array)$data); ?>
+      <?php echo getGlobalStatus($data); ?>
     </div>
 	
     <div class="lineas">
       <ul>
         <li class="divider"></li>
-        <li class="linea a<?php echo getCSS($interrumpido); ?>">
+        <li class="linea a<?php echo getCSS($data["A"]); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
-          <div class="descripcion estado"><?php echo getStatusText($interrumpido); ?></div>
+          <div class="descripcion estado"><?php echo getStatusText($data["A"]); ?></div>
         </li>
         <li class="divider"></li>
-        <li class="linea b<?php echo getCSS($reduced); ?>">
+        <li class="linea b<?php echo getCSS($data["B"]); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
-          <div class="descripcion estado"><?php echo getStatusText($reduced); ?></div>
-          <div class="descripcion estado"><?php echo getDescriptionText($reduced); ?></div>
+          <div class="descripcion estado"><?php echo getStatusText($data["B"]); ?></div>
+          <div class="descripcion estado"><?php echo getDescriptionText($data["B"]); ?></div>
         </li>
         <li class="divider"></li>
-        <li class="linea c<?php echo getCSS($data->C); ?>">
+        <li class="linea c<?php echo getCSS($data["C"]); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
-          <div class="descripcion estado"><?php echo getStatusText($data->C); ?></div>
+          <div class="descripcion estado"><?php echo getStatusText($data["C"]); ?></div>
         </li>
         <li class="divider"></li>
-        <li class="linea d<?php echo getCSS($data->D); ?>">
+        <li class="linea d<?php echo getCSS($data["D"]); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
-          <div class="descripcion estado"><?php echo getStatusText($data->D); ?></div>
+          <div class="descripcion estado"><?php echo getStatusText($data["D"]); ?></div>
         </li>
         <li class="divider"></li>
-        <li class="linea e<?php echo getCSS($data->E); ?>">
+        <li class="linea e<?php echo getCSS($data["E"]); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
-          <div class="descripcion estado"><?php echo getStatusText($data->E); ?></div>
+          <div class="descripcion estado"><?php echo getStatusText($data["E"]); ?></div>
         </li>
         <li class="divider"></li>
-        <li class="linea h<?php echo getCSS($data->H); ?>">
+        <li class="linea h<?php echo getCSS($data["H"]); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
-          <div class="descripcion estado"><?php echo getStatusText($data->H); ?></div>
+          <div class="descripcion estado"><?php echo getStatusText($data["H"]); ?></div>
         </li>
         <li class="divider"></li>
-        <li class="linea p<?php echo getCSS($data->P); ?>">
+        <li class="linea p<?php echo getCSS($data["P"]); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
-          <div class="descripcion estado"><?php echo getStatusText($data->P); ?></div>
+          <div class="descripcion estado"><?php echo getStatusText($data["P"]); ?></div>
         </li>
         <li class="divider"></li>
       </ul>
