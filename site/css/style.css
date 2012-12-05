@@ -98,15 +98,15 @@ h1 {
 }
 
 /*
-  LÃNEAS
+  LINEAS
 */
 .lineas {
   text-align: center;
   background: #232323;
   width: 100%;
-  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25); 
-  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25); 
-  -o-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25); 
+  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+  -o-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
 }
 
@@ -134,7 +134,7 @@ h1 {
 }
 
 /*
-  LOGOS LÃNEAS
+  LOGOS LINEAS
 */
 .linea .icono.logo {
   float: left;
@@ -169,7 +169,7 @@ h1 {
 }
 
 /*
-  ÃCONOS DE ESTADO
+  ICONOS DE ESTADO
 */
 .linea .icono.estado {
   float: left;
@@ -185,6 +185,10 @@ h1 {
 
 .linea.interrumpido .icono.estado {
   background: url('../images/icons/Cruz-roja.png') no-repeat;
+}
+
+.linea.limitado .icono.estado {
+  background: url('../images/icons/limitado_1.png') no-repeat;
 }
 
 .linea.sleeping .icono.estado {

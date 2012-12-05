@@ -15,6 +15,9 @@ function getCSS($line) {
         case 'SLEEPING':
             $class = ' sleeping';
             break;
+        case 'REDUCED':
+            $class = ' limitado';
+            break;
         default:
             $class = ' unknown';
             break;
@@ -34,6 +37,9 @@ function getStatusText($line) {
         case 'DELAYED':
             $status = 'Demorado';
             break;
+        case 'REDUCED':
+            $status = 'Limitado';
+            break;
         case 'SLEEPING':
             $status = 'Durmiendo';
             break;
@@ -47,12 +53,15 @@ function getGlobalStatus($data) {
         if ($obj->status === 'DELAYED') {
             $status = 'Casi :/';
         }
+        if ($obj->status === 'REDUCED') {
+            $status = 'Casi :/';
+        }
         if ($obj->status === 'CANCELLED') {
             $status = 'No :(';
             break;
         }
         if ($obj->status === 'SLEEPING') {
-            $status = 'No :)';
+            $status = 'Shh...';
             break;
         }
     }
@@ -63,6 +72,9 @@ function getTweetText($data) {
     $status = '&iexcl;YAY! Todos los subtes funcionan con normalidad :D';
     foreach ($data as $line => $obj) {
         if ($obj->status === 'DELAYED') {
+            $status = 'Mmmh, algunos subtes andan... otros no :/';
+        }
+        if ($obj->status === 'REDUCED') {
             $status = 'Mmmh, algunos subtes andan... otros no :/';
         }
         if ($obj->status === 'CANCELLED') {
@@ -77,7 +89,7 @@ function getTweetText($data) {
     return $status;
 }
 
-$data = json_decode(file_get_contents('http://tomasdev.com.ar/status/subte.php'));
+$data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
 
 ?><!DOCTYPE html>
 <html>
@@ -174,10 +186,10 @@ $data = json_decode(file_get_contents('http://tomasdev.com.ar/status/subte.php')
         <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
         <div class="fb-like" data-href="http://www.haysubtes.com" data-send="true" data-layout="button_count" data-width="450" data-show-faces="true"></div>
       </div>
-    
+
       <div class="texto-bonito"><p>haysubtes.com se actualiza cada 5 minutos. :)</p></div>
-    
-      <div class="quote"><a href="http://www.twitter.com/celestineia" target="_blank">Cerebro</a> - <a href="http://www.twitter.com/aguagraphics" target="_blank">Art</a> - <a href="http://www.twitter.com/blaquened" target="_blank">Layout</a> - <a href="http://www.twitter.com/tomasdev" target="_blank">Dev</a></div>
+
+      <div class="quote"><a href="http://www.twitter.com/celestineia" target="_blank">Cerebro</a> - <a href="http://www.twitter.com/aguagraphics" target="_blank">Art</a> - <a href="http://www.twitter.com/blaquened" target="_blank">Layout</a> - <a href="http://www.twitter.com/tomasdev" target="_blank">Pinky</a></div>
     </footer>
   </body>
 
