@@ -47,6 +47,17 @@ function getStatusText($line) {
     return $status;
 }
 
+function getDescriptionText($line) {
+    $status = 'asdasdasads';
+    switch ($line->status) {
+        case 'REDUCED':
+        	preg_match('/estaciones (.*?) y (.*?)\s\d/', $line->message, $data);
+            $status = $data[1] . "<br/>" . $data[2];
+            break;
+    }
+    return $status;
+}
+
 function getGlobalStatus($data) {
     $status = 'S&iacute; :)';
     foreach ($data as $line => $obj) {
@@ -89,6 +100,16 @@ function getTweetText($data) {
     return $status;
 }
 
+//Testing objects
+$interrumpido = new stdClass();
+$interrumpido->{'status'} = 'CANCELLED';
+$interrumpido->{'message'} = 'asdasdasd'; 
+
+$reduced = new stdClass();
+$reduced->{'status'} = 'REDUCED';
+$reduced->{'message'} = 'Servicio limitado entre estaciones CARABOBO y PIEDRAS 09:10 hs.'; 
+ 
+
 $data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
 
 ?><!DOCTYPE html>
@@ -108,7 +129,7 @@ $data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
     <meta property="og:title" content="&iquest;Hay subtes?"/>
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="http://www.haysubtes.com/images/fblogo.png"/>
-    <meta property="og:url" content="http://www.haysubtes.com/"/>
+    <meta property="og:url" content="http://www.haysubtes.com/dev"/>
     <meta property="og:site_name" content="HaySubtes.com"/>
     <meta property="fb:app_id" content="474696555902114"/>
   </head>
@@ -131,20 +152,21 @@ $data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
     <div class="estado-general">
       <?php echo getGlobalStatus((array)$data); ?>
     </div>
-
+	
     <div class="lineas">
       <ul>
         <li class="divider"></li>
-        <li class="linea a<?php echo getCSS($data->A); ?>">
+        <li class="linea a<?php echo getCSS($interrumpido); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
-          <div class="descripcion estado"><?php echo getStatusText($data->A); ?></div>
+          <div class="descripcion estado"><?php echo getStatusText($interrumpido); ?></div>
         </li>
         <li class="divider"></li>
-        <li class="linea b<?php echo getCSS($data->B); ?>">
+        <li class="linea b<?php echo getCSS($reduced); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
-          <div class="descripcion estado"><?php echo getStatusText($data->B); ?></div>
+          <div class="descripcion estado"><?php echo getStatusText($reduced); ?></div>
+          <div class="descripcion estado"><?php echo getDescriptionText($reduced); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea c<?php echo getCSS($data->C); ?>">

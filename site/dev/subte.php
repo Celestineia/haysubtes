@@ -50,9 +50,10 @@ $cachetime = 60 * 5;
 $cacheext = 'cache';
 // $cachepage = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 // dont cache query string
+
 $cachepage = $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'];
 $cachefile = $cachedir.md5($cachepage).'.'.$cacheext;
-
+/*
 if (@file_exists($cachefile)) {
     $cachelast = @filemtime($cachefile);
 } else {
@@ -65,6 +66,7 @@ if (time() - $cachetime <$cachelast) {
     echo file_get_contents($cachefile);
     exit();
 }
+*/
 ob_start();
 
 $url = 'http://www.metrovias.com.ar/V2/InfoSubteSplash.asp';
@@ -78,14 +80,13 @@ $json = array();
 
 foreach($matches[1] as $line) {
     // echo $line . "\n";
-    // $line = str_replace(array('&nbsp;', 'á', 'é', 'í', 'ó', 'ú'), array(' ', '&aacute;', '&eacute;', '&iacute;', '&oacute;', '&uacute;'), $line);
     $line = str_replace(array('&nbsp;'), array(' '), $line);
-    // echo $line;
-    // $line = str_replace(array('&nbsp;'), array(' '), $line);
     $line = strip_tags(html_entity_decode($line, ENT_QUOTES, 'UTF-8'));
     // preg_match('/nea\s([A-Z]{1}):.*(\s)([A-Za-z]+)\.?$/', $line, $data);
     preg_match('/nea\s([A-Z]{1}):\s\s?(.*)/', $line, $data);
-    // echo $line . "\n";
+	echo $line . "\n";
+    echo $data[1] . "\n";
+    echo $data[2] . "\n";
     $json[$data[1]] = array(
         'status' => parseMessage($data[2]),
         'message' => htmlentities($data[2], ENT_QUOTES, 'UTF-8')

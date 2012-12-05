@@ -189,7 +189,7 @@ $data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
 
       <div class="texto-bonito"><p>haysubtes.com se actualiza cada 5 minutos. :)</p></div>
 
-      <div class="quote"><a href="http://www.twitter.com/celestineia" target="_blank">Cerebro</a> - <a href="http://www.twitter.com/aguagraphics" target="_blank">Art</a> - <a href="http://www.twitter.com/blaquened" target="_blank">Layout</a> - <a href="http://www.twitter.com/tomasdev" target="_blank">Pinky</a></div>
+      <div class="quote"><a href="http://www.twitter.com/celestineia" target="_blank">Cerebro</a> - <a href="http://www.twitter.com/aguagraphics" target="_blank">Art</a> - <a href="http://www.twitter.com/blaquened" target="_blank">Layout</a> - <a href="#" target="_self">Pinky</a> - <a href="http://www.twitter.com/chompas" target="_blank">Master Shake</a> </div>
     </footer>
   </body>
 
