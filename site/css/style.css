@@ -312,6 +312,7 @@ footer .quote {
   font-family: Tahoma, sans-serif;
   font-size: 0.9em;
   color: #fdfdfd;
+  text-shadow: rgba(0, 0, 0, 0.75) 0 2px;
 }
 .texto-bonito {  color: #fff; font-family: Tahoma, sans-serif; text-shadow: rgba(0, 0, 0, 0.75) 0 2px; margin: 0 0 15px; font-size: 13px;}
 

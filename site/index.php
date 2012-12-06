@@ -54,7 +54,9 @@ function getDescriptionText($line) {
     $status = '';
     switch ($line->status) {
         case 'REDUCED':
+        
         	preg_match('/estaciones: (.*?) y (.*?)\s\d/', $line->message, $data);
+
 			//Capitalizing
 			$data[1] = ucwords(strtolower($data[1]));
 			$data[2] = ucwords(strtolower($data[2]));
