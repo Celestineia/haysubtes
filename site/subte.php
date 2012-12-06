@@ -3,7 +3,7 @@
 $date = (int) date('H');
 $sleeping = false;
 
-if ($date >= 21 || $date < 3) {
+if ($date >= 23 || $date < 5) {
     $sleeping = true;
 }
 
