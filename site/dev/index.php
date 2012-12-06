@@ -32,13 +32,13 @@ function getStatusText($line) {
             $status = 'Normal';
             break;
         case 'CANCELLED':
-            $status = 'Interrumpido';
+            $status = 'Interrumpida';
             break;
         case 'DELAYED':
-            $status = 'Demorado';
+            $status = 'Demorada';
             break;
         case 'REDUCED':
-            $status = 'Limitado';
+            $status = 'Limitada';
             break;
         case 'SLEEPING':
             $status = 'Durmiendo';
@@ -52,6 +52,9 @@ function getDescriptionText($line) {
     switch ($line->status) {
         case 'REDUCED':
         	preg_match('/estaciones (.*?) y (.*?)\s\d/', $line->message, $data);
+			//Capitalizing
+			$data[1] = ucwords(strtolower($data[1]));
+			$data[2] = ucwords(strtolower($data[2]));
             $status = $data[1] . "<br/>" . $data[2];
             break;
     }
@@ -70,9 +73,6 @@ function getGlobalStatus($data) {
         if ($obj->status === 'REDUCED') {
             $status = 'Casi :/';
             $funcionando++;
-        }
-        if ($obj->status === 'CANCELLED') {
-            $status = 'Casi :/';
         }
         if ($obj->status === 'SLEEPING') {
             $status = 'Shh...';
@@ -116,7 +116,7 @@ $interrumpido->{'message'} = 'asdasdasd';
 
 $reduced = new stdClass();
 $reduced->{'status'} = 'REDUCED';
-$reduced->{'message'} = 'Servicio limitado entre estaciones CARABOBO y PIEDRAS 09:10 hs.'; 
+$reduced->{'message'} = 'Servicio limitado entre estaciones FACULTAD DE MEDICINA y CONGRESO DE TUCUMAN 09:10 hs.'; 
  
 
 $data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
@@ -171,53 +171,63 @@ $data->B = $reduced;
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->A); ?></div>
-		  <div class="descripcion estado"><?php getDescriptionText($data->A); ?></div>
+		  <div class="descripcion detalle"><?php getDescriptionText($data->A); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea b<?php echo getCSS($data->B); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->B); ?></div>
-          <div class="descripcion estado"><?php echo getDescriptionText($data->B); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->B); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea c<?php echo getCSS($data->C); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->C); ?></div>
-		  <div class="descripcion estado"><?php getDescriptionText($data->C); ?></div>
+		  <div class="descripcion detalle"><?php getDescriptionText($data->C); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea d<?php echo getCSS($data->D); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->D); ?></div>
-		  <div class="descripcion estado"><?php getDescriptionText($data->D); ?></div>
+		  <div class="descripcion detalle"><?php getDescriptionText($data->D); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea e<?php echo getCSS($data->E); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->E); ?></div>
-		  <div class="descripcion estado"><?php getDescriptionText($data->E); ?></div>
+		  <div class="descripcion detalle"><?php getDescriptionText($data->E); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea h<?php echo getCSS($data->H); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->H); ?></div>
-		  <div class="descripcion estado"><?php getDescriptionText($data->H); ?></div>
+		  <div class="descripcion detalle"><?php getDescriptionText($data->H); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea p<?php echo getCSS($data->P); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->P); ?></div>
-		  <div class="descripcion estado"><?php getDescriptionText($data->P); ?></div>
+		  <div class="descripcion detalle"><?php getDescriptionText($data->P); ?></div>
         </li>
         <li class="divider"></li>
       </ul>
     </div>
+	
+	<!--
+	<div class="advertencia">
+		<div class="logoLeft"></div>
+		<div class="info"><span class="title">Paro escalonado 06/12:</span><span class="lineaA"> Linea A:</span> 08 - 10 hs. | <span class="lineaB">Linea B:</span> 10 - 12 hs. | <span class="lineaC">Linea C:</span> 12 - 14 hs. |  <span class="lineaD">Linea D:</span> 14 - 16 hs. | <span class="lineaE">Linea E:</span> 16 - 18 hs. | <span class="lineaH">Linea H:</span> 16 - 18 hs. | <span class="lineaP">Premetro:</span> 16 - 18 hs.</div>
+		<div style="clear: both"></div>
+	</div>
+	-->
+	
+	<div style="clear: both"></div>
 
     <footer>
       <div class="social">

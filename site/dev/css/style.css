@@ -133,6 +133,75 @@ h1 {
   margin: 17px 0;
 }
 
+.advertencia {
+  text-align: center;
+  background: #363636;
+  width: 100%;
+  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+  -o-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+.advertencia .logoLeft {
+  float: left;
+  height: 50px;
+  width: 50px;
+}
+
+.advertencia .info {
+  width: 47%;
+  float: center;
+  padding-top: 20px;
+  line-height: 20px;
+  font-family: Tahoma, sans-serif;
+  font-size: 0.8em;
+  color: #bcbcbc;
+  text-shadow: rgba(0, 0, 0, 0.75) 0 2px;
+  margin: 0px auto;
+  padding-bottom: 20px;
+}
+
+.advertencia .info .title {
+  color: #fdb930;
+  font-weight: bold;
+}
+
+.advertencia .info .lineaA {
+  color: #43bbd9;
+  font-weight: bold;
+}
+
+.advertencia .info .lineaB {
+  color: #ed4a57;
+  font-weight: bold;
+}
+
+.advertencia .info .lineaC {
+  color: #377db0;
+  font-weight: bold;
+}
+
+.advertencia .info .lineaD {
+  color: #28806c;
+  font-weight: bold;
+}
+
+.advertencia .info .lineaE {
+  color: #7a2b8a;
+  font-weight: bold;
+}
+
+.advertencia .info .lineaH {
+  color: #ffdb3d;
+  font-weight: bold;
+}
+
+.advertencia .info .lineaP {
+  color: #ffb742;
+  font-weight: bold;
+}
+
 /*
   LOGOS LINEAS
 */
@@ -207,6 +276,16 @@ h1 {
   text-align: center;
 }
 
+.linea .descripcion.detalle {
+  clear: both;
+  font-family: Tahoma, sans-serif;
+  font-size: 0.9em;
+  color: #bcbcbc;
+  text-shadow: rgba(0, 0, 0, 0.75) 0 2px;
+  text-align: center;
+  padding-top: 5px;
+}
+
 /*
   FOOTER
 */
@@ -234,7 +313,7 @@ footer .quote {
   font-size: 0.9em;
   color: #fdfdfd;
 }
-.texto-bonito {  color: #fff; font-family: sans-serif; text-shadow: rgba(0, 0, 0, 0.75) 0 2px; margin: 0 0 15px; font-size: 13px;}
+.texto-bonito {  color: #fff; font-family: Tahoma, sans-serif; text-shadow: rgba(0, 0, 0, 0.75) 0 2px; margin: 0 0 15px; font-size: 13px;}
 
 
 @media screen and (max-width: 768px),
@@ -275,6 +354,15 @@ footer .quote {
     line-height: 50px;
     text-align: left;
     width: 120px;
+  }
+  
+  .linea .descripcion.detalle {
+    clear: none;
+    float: left;
+    text-align: center;
+    width: 180px;
+    padding-top: 5px;
+	padding-left: 30px;
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1024px) {
