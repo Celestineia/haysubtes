@@ -3,7 +3,7 @@
 $date = (int) date('H');
 $sleeping = false;
 
-if ($date >= 21 || $date < 3) {
+if ($date >= 23 || $date < 5) {
     $sleeping = true;
 }
 
@@ -45,8 +45,8 @@ if (@$_GET['callback']) {
 
 // Settings
 $cachedir = 'cache/';
-// every 5 mins
-$cachetime = 60 * 5;
+// every 3 mins
+$cachetime = 60 * 2;
 $cacheext = 'cache';
 // $cachepage = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 // dont cache query string
