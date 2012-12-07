@@ -163,9 +163,8 @@ $data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  <meta name="description" content="Enterate del estado de todas las l&iacute;neas de subtes"/>
+  <meta name="description" content="Conocé el estado del Subte de Buenos Aires. Lineas A B C D E H y Premetro. Se actualiza cada 2 minutos."/>
     <meta property="og:title" content="&iquest;Hay subtes? | Estado del subte de Buenos Aires. Lineas A B C D E H P"/>
-    <meta property="og:description" content="Conocé el estado del Subte de Buenos Aires. Lineas A B C D E H y Premetro. Se actualiza cada 2 minutos."/>
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="http://www.haysubtes.com/images/fblogo.png"/>
     <meta property="og:url" content="http://www.haysubtes.com/"/>
