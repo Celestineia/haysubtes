@@ -33,12 +33,15 @@ function getStatusText($line) {
             break;
         case 'CANCELLED':
             $status = 'Interrumpida';
+
             break;
         case 'DELAYED':
             $status = 'Demorada';
+
             break;
         case 'REDUCED':
             $status = 'Limitada';
+
             break;
         case 'SLEEPING':
             $status = 'Durmiendo';
@@ -51,11 +54,9 @@ function getDescriptionText($line) {
     $status = '';
     switch ($line->status) {
         case 'REDUCED':
-<<<<<<< HEAD
-        	preg_match('/estaciones: (.*?) y (.*?)\s\d/', 'PRESTA SERVICIO LIMITADO ENTRE CARABOBO Y LIMA 10:58 hs', $data);
-=======
-        	preg_match('/estaciones (.*?) y (.*?)\s\d/', $line->message, $data);
->>>>>>> 9e9e0e8bfec2e7af9c19de0b2ec87c69a36e0de3
+        
+        	preg_match('/estaciones: (.*?) y (.*?)\s\d/', $line->message, $data);
+
 			//Capitalizing
 			$data[1] = ucwords(strtolower($data[1]));
 			$data[2] = ucwords(strtolower($data[2]));
@@ -64,25 +65,38 @@ function getDescriptionText($line) {
             //No estoy orgulloso de esto. Hay que arreglarlo
             
             if (empty($data[1])) {
-            	preg_match('/ENTRE (.*?) Y (.*?)\s\d/', 'PRESTA SERVICIO LIMITADO ENTRE CARABOBO Y LIMA 10:58 hs', $data);
+            	preg_match('/ENTRE (.*?) Y (.*?)\s\d/', $line->message, $data);
 				//Capitalizing
 				$data[1] = ucwords(strtolower($data[1]));
 				$data[2] = ucwords(strtolower($data[2]));
-            	$status = $data[1] . "<br/>" . $data[2];	
+            	$status = $data[1] . "<br/>" . $data[2];
+            }
+            
+            if (empty($data[1])) {
+            	preg_match('/estaciones (.*?) Y (.*?)\s\d/', $line->message, $data);
+				//Capitalizing
+				$data[1] = ucwords(strtolower($data[1]));
+				$data[2] = ucwords(strtolower($data[2]));
+            	$status = $data[1] . "<br/>" . $data[2];
             }
             
             break;
     }
     return $status;
 }
-
-
 function getGlobalStatus($data) {
     $status = 'S&iacute; :)';
     $funcionando = 0;
 
     foreach ($data as $line => $obj) {
+        if ($obj->status === 'NORMAL') {
+            $funcionando++;
+        }
         if ($obj->status === 'DELAYED') {
+            $status = 'Casi :/';
+            $funcionando++;
+        }
+        if ($obj->status === 'CANCELLED') {
             $status = 'Casi :/';
             $funcionando++;
         }
@@ -106,24 +120,35 @@ function getGlobalStatus($data) {
 
 function getTweetText($data) {
     $status = '&iexcl;YAY! Todos los subtes funcionan con normalidad :D';
+    $funcionando = 0;
+    
     foreach ($data as $line => $obj) {
+        if ($obj->status === 'NORMAL') {
+            $funcionando++;
+        }
         if ($obj->status === 'DELAYED') {
             $status = 'Mmmh, algunos subtes andan... otros no :/';
+            $funcionando++;
         }
         if ($obj->status === 'REDUCED') {
             $status = 'Mmmh, algunos subtes andan... otros no :/';
-        }
-        if ($obj->status === 'CANCELLED') {
-            $status = 'Buuh, todos los subtes están interrumpidos :C';
-            break;
+            $funcionando++;
         }
         if ($obj->status === 'SLEEPING') {
             $status = '&iexcl;Oh! Los subtes est&aacute;n durmiendo';
+            $funcionando++;
             break;
         }
     }
+    
+    if ($funcionando == 0) {
+      $status = 'Buuh, todos los subtes están interrumpidos :C';
+    }
+    
     return $status;
 }
+
+$data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
 
 //Testing objects
 $interrumpido = new stdClass();
@@ -152,11 +177,11 @@ $data->B = $reduced;
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  <meta name="description" content="Enterate del estado de todas las l&iacute;neas de subtes"/>
-    <meta property="og:title" content="&iquest;Hay subtes?"/>
+  <meta name="description" content="Conocé el estado del Subte de Buenos Aires. Lineas A B C D E H y Premetro. Se actualiza cada 2 minutos."/>
+    <meta property="og:title" content="&iquest;Hay subtes? | Estado del subte de Buenos Aires. Lineas A B C D E H P"/>
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="http://www.haysubtes.com/images/fblogo.png"/>
-    <meta property="og:url" content="http://www.haysubtes.com/dev"/>
+    <meta property="og:url" content="http://www.haysubtes.com/"/>
     <meta property="og:site_name" content="HaySubtes.com"/>
     <meta property="fb:app_id" content="474696555902114"/>
   </head>
@@ -179,7 +204,7 @@ $data->B = $reduced;
     <div class="estado-general">
       <?php echo getGlobalStatus($data); ?>
     </div>
-	
+
     <div class="lineas">
       <ul>
         <li class="divider"></li>
@@ -187,82 +212,54 @@ $data->B = $reduced;
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->A); ?></div>
-<<<<<<< HEAD
 		  <div class="descripcion detalle"><?php echo getDescriptionText($data->A); ?></div>
-=======
-		  <div class="descripcion detalle"><?php getDescriptionText($data->A); ?></div>
->>>>>>> 9e9e0e8bfec2e7af9c19de0b2ec87c69a36e0de3
         </li>
         <li class="divider"></li>
         <li class="linea b<?php echo getCSS($data->B); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->B); ?></div>
-<<<<<<< HEAD
 		  <div class="descripcion detalle"><?php echo getDescriptionText($data->B); ?></div>
-=======
-          <div class="descripcion detalle"><?php echo getDescriptionText($data->B); ?></div>
->>>>>>> 9e9e0e8bfec2e7af9c19de0b2ec87c69a36e0de3
         </li>
         <li class="divider"></li>
         <li class="linea c<?php echo getCSS($data->C); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->C); ?></div>
-<<<<<<< HEAD
 		  <div class="descripcion detalle"><?php echo getDescriptionText($data->C); ?></div>
-=======
-		  <div class="descripcion detalle"><?php getDescriptionText($data->C); ?></div>
->>>>>>> 9e9e0e8bfec2e7af9c19de0b2ec87c69a36e0de3
         </li>
         <li class="divider"></li>
         <li class="linea d<?php echo getCSS($data->D); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->D); ?></div>
-<<<<<<< HEAD
 		  <div class="descripcion detalle"><?php echo getDescriptionText($data->D); ?></div>
-=======
-		  <div class="descripcion detalle"><?php getDescriptionText($data->D); ?></div>
->>>>>>> 9e9e0e8bfec2e7af9c19de0b2ec87c69a36e0de3
         </li>
         <li class="divider"></li>
         <li class="linea e<?php echo getCSS($data->E); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->E); ?></div>
-<<<<<<< HEAD
 		  <div class="descripcion detalle"><?php echo getDescriptionText($data->E); ?></div>
-=======
-		  <div class="descripcion detalle"><?php getDescriptionText($data->E); ?></div>
->>>>>>> 9e9e0e8bfec2e7af9c19de0b2ec87c69a36e0de3
         </li>
         <li class="divider"></li>
         <li class="linea h<?php echo getCSS($data->H); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->H); ?></div>
-<<<<<<< HEAD
 		  <div class="descripcion detalle"><?php echo getDescriptionText($data->H); ?></div>
-=======
-		  <div class="descripcion detalle"><?php getDescriptionText($data->H); ?></div>
->>>>>>> 9e9e0e8bfec2e7af9c19de0b2ec87c69a36e0de3
         </li>
         <li class="divider"></li>
         <li class="linea p<?php echo getCSS($data->P); ?>">
           <div class="icono logo"></div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->P); ?></div>
-<<<<<<< HEAD
 		  <div class="descripcion detalle"><?php echo getDescriptionText($data->P); ?></div>
-=======
-		  <div class="descripcion detalle"><?php getDescriptionText($data->P); ?></div>
->>>>>>> 9e9e0e8bfec2e7af9c19de0b2ec87c69a36e0de3
         </li>
         <li class="divider"></li>
       </ul>
     </div>
-	
+
 	<!--
 	<div class="advertencia">
 		<div class="logoLeft"></div>
@@ -272,8 +269,6 @@ $data->B = $reduced;
 	-->
 	
 	<div style="clear: both"></div>
-
-
     <footer>
       <div class="social">
         <a href="https://twitter.com/share" class="twitter-share-button" data-text="<?php echo getTweetText($data); ?>" data-lang="es">Twittear</a>
@@ -281,9 +276,9 @@ $data->B = $reduced;
         <div class="fb-like" data-href="http://www.haysubtes.com" data-send="true" data-layout="button_count" data-width="450" data-show-faces="true"></div>
       </div>
 
-      <div class="texto-bonito"><p>haysubtes.com se actualiza cada 5 minutos. :)</p></div>
+      <div class="texto-bonito"><p>El estado de subtes de <a href="http://www.haysubtes.com">haysubtes.com</a> se actualiza cada 2 minutos. :)</p></div>
 
-      <div class="quote"><a href="http://www.twitter.com/celestineia" target="_blank">Cerebro</a> - <a href="http://www.twitter.com/aguagraphics" target="_blank">Art</a> - <a href="http://www.twitter.com/blaquened" target="_blank">Layout</a> - <a href="http://www.twitter.com/tomasdev" target="_blank">Pinky</a></div>
+      <div class="quote"><a href="http://www.twitter.com/celestineia" target="_blank">Cerebro</a> - <a href="http://www.twitter.com/aguagraphics" target="_blank">Art</a> - <a href="http://www.twitter.com/blaquened" target="_blank">Layout</a> - Pinky - <a href="http://www.twitter.com/chompas" target="_blank">Master Shake</a> </div>
     </footer>
   </body>
 
