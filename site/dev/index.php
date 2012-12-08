@@ -54,16 +54,16 @@ function getDescriptionText($line) {
     $status = '';
     switch ($line->status) {
         case 'REDUCED':
-        
+
         	preg_match('/estaciones: (.*?) y (.*?)\s\d/', $line->message, $data);
 
 			//Capitalizing
 			$data[1] = ucwords(strtolower($data[1]));
 			$data[2] = ucwords(strtolower($data[2]));
             $status = $data[1] . "<br/>" . $data[2];
-            
+
             //No estoy orgulloso de esto. Hay que arreglarlo
-            
+
             if (empty($data[1])) {
             	preg_match('/ENTRE (.*?) Y (.*?)\s\d/', $line->message, $data);
 				//Capitalizing
@@ -71,7 +71,7 @@ function getDescriptionText($line) {
 				$data[2] = ucwords(strtolower($data[2]));
             	$status = $data[1] . "<br/>" . $data[2];
             }
-            
+
             if (empty($data[1])) {
             	preg_match('/estaciones (.*?) Y (.*?)\s\d/', $line->message, $data);
 				//Capitalizing
@@ -79,7 +79,7 @@ function getDescriptionText($line) {
 				$data[2] = ucwords(strtolower($data[2]));
             	$status = $data[1] . "<br/>" . $data[2];
             }
-            
+
             break;
     }
     return $status;
@@ -121,7 +121,7 @@ function getGlobalStatus($data) {
 function getTweetText($data) {
     $status = '&iexcl;YAY! Todos los subtes funcionan con normalidad :D';
     $funcionando = 0;
-    
+
     foreach ($data as $line => $obj) {
         if ($obj->status === 'NORMAL') {
             $funcionando++;
@@ -140,11 +140,11 @@ function getTweetText($data) {
             break;
         }
     }
-    
+
     if ($funcionando == 0) {
       $status = 'Buuh, todos los subtes están interrumpidos :C';
     }
-    
+
     return $status;
 }
 
@@ -153,12 +153,12 @@ $data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
 //Testing objects
 $interrumpido = new stdClass();
 $interrumpido->{'status'} = 'CANCELLED';
-$interrumpido->{'message'} = 'asdasdasd'; 
+$interrumpido->{'message'} = 'asdasdasd';
 
 $reduced = new stdClass();
 $reduced->{'status'} = 'REDUCED';
-$reduced->{'message'} = 'Servicio limitado entre estaciones FACULTAD DE MEDICINA y CONGRESO DE TUCUMAN 09:10 hs.'; 
- 
+$reduced->{'message'} = 'Servicio limitado entre estaciones FACULTAD DE MEDICINA y CONGRESO DE TUCUMAN 09:10 hs.';
+
 
 $data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
 $data->A = $interrumpido;
@@ -173,6 +173,7 @@ $data->B = $reduced;
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/responsive.css">
 
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -281,7 +282,7 @@ $data->B = $reduced;
 		<div style="clear: both"></div>
 	</div>
 	-->
-	
+
 	<div style="clear: both"></div>
     <footer>
       <div class="social">
