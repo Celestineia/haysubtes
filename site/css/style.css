@@ -209,34 +209,6 @@ h1 {
   float: left;
 }
 
-.linea.a .icono.logo {
-  background: url('../images/icons/Linea-A.png') no-repeat;
-}
-
-.linea.b .icono.logo {
-  background: url('../images/icons/Linea-B.png') no-repeat;
-}
-
-.linea.c .icono.logo {
-  background: url('../images/icons/Linea-C.png') no-repeat;
-}
-
-.linea.d .icono.logo {
-  background: url('../images/icons/Linea-D.png') no-repeat;
-}
-
-.linea.e .icono.logo {
-  background: url('../images/icons/Linea-E.png') no-repeat;
-}
-
-.linea.h .icono.logo {
-  background: url('../images/icons/Linea-H.png') no-repeat;
-}
-
-.linea.p .icono.logo {
-  background: url('../images/icons/Linea-P.png') no-repeat;
-}
-
 /*
   ICONOS DE ESTADO
 */

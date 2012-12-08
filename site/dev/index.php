@@ -169,7 +169,7 @@ $data->B = $reduced;
   <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" />
-    <title>&iquest;Hay subtes?</title>
+    <title>&iquest;Hay subtes? | Estado del subte de Buenos Aires. Lineas A B C D E H P</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -209,52 +209,66 @@ $data->B = $reduced;
       <ul>
         <li class="divider"></li>
         <li class="linea a<?php echo getCSS($data->A); ?>">
-          <div class="icono logo"></div>
+          <div class="icono logo">
+            <img src="images/icons/Linea-A.png" alt="Estado subte linea A" />
+          </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->A); ?></div>
-		  <div class="descripcion detalle"><?php echo getDescriptionText($data->A); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->A); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea b<?php echo getCSS($data->B); ?>">
-          <div class="icono logo"></div>
+          <div class="icono logo">
+            <img src="images/icons/Linea-B.png" alt="Estado subte linea B" />
+          </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->B); ?></div>
-		  <div class="descripcion detalle"><?php echo getDescriptionText($data->B); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->B); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea c<?php echo getCSS($data->C); ?>">
-          <div class="icono logo"></div>
+          <div class="icono logo">
+            <img src="images/icons/Linea-C.png" alt="Estado subte linea C" />
+          </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->C); ?></div>
-		  <div class="descripcion detalle"><?php echo getDescriptionText($data->C); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->C); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea d<?php echo getCSS($data->D); ?>">
-          <div class="icono logo"></div>
+          <div class="icono logo">
+            <img src="images/icons/Linea-D.png" alt="Estado subte linea D" />
+          </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->D); ?></div>
-		  <div class="descripcion detalle"><?php echo getDescriptionText($data->D); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->D); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea e<?php echo getCSS($data->E); ?>">
-          <div class="icono logo"></div>
+          <div class="icono logo">
+            <img src="images/icons/Linea-E.png" alt="Estado subte linea E" />
+          </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->E); ?></div>
-		  <div class="descripcion detalle"><?php echo getDescriptionText($data->E); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->E); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea h<?php echo getCSS($data->H); ?>">
-          <div class="icono logo"></div>
+          <div class="icono logo">
+            <img src="images/icons/Linea-H.png" alt="Estado subte linea H" />
+          </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->H); ?></div>
-		  <div class="descripcion detalle"><?php echo getDescriptionText($data->H); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->H); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea p<?php echo getCSS($data->P); ?>">
-          <div class="icono logo"></div>
+          <div class="icono logo">
+            <img src="images/icons/Linea-P.png" alt="Estado subte linea P" />
+          </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->P); ?></div>
-		  <div class="descripcion detalle"><?php echo getDescriptionText($data->P); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->P); ?></div>
         </li>
         <li class="divider"></li>
       </ul>
