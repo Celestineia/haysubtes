@@ -159,6 +159,13 @@ $data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    
+	<link rel="apple-touch-icon" href="images/fblogo.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/fblogo.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/fblogo.png">
+    
+	<link rel="stylesheet" href="css/add2home.css">
+	<script type="text/javascript" src="js/add2home.js" charset="utf-8"></script>
 
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
