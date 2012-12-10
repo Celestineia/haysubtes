@@ -51,6 +51,14 @@ a {
   text-decoration: none;
 }
 
+.texto-bonito {
+  color: #fff;
+  font-family: Tahoma, sans-serif;
+  text-shadow: rgba(0, 0, 0, 0.75) 0 2px;
+  margin: 0 0 15px;
+  font-size: 13px;
+}
+
 /*
   HEADER
 */
@@ -209,34 +217,6 @@ h1 {
   float: left;
 }
 
-.linea.a .icono.logo {
-  background: url('../images/icons/Linea-A.png') no-repeat;
-}
-
-.linea.b .icono.logo {
-  background: url('../images/icons/Linea-B.png') no-repeat;
-}
-
-.linea.c .icono.logo {
-  background: url('../images/icons/Linea-C.png') no-repeat;
-}
-
-.linea.d .icono.logo {
-  background: url('../images/icons/Linea-D.png') no-repeat;
-}
-
-.linea.e .icono.logo {
-  background: url('../images/icons/Linea-E.png') no-repeat;
-}
-
-.linea.h .icono.logo {
-  background: url('../images/icons/Linea-H.png') no-repeat;
-}
-
-.linea.p .icono.logo {
-  background: url('../images/icons/Linea-P.png') no-repeat;
-}
-
 /*
   ICONOS DE ESTADO
 */
@@ -313,69 +293,4 @@ footer .quote {
   font-size: 0.9em;
   color: #fdfdfd;
   text-shadow: rgba(0, 0, 0, 0.75) 0 2px;
-}
-.texto-bonito {  color: #fff; font-family: Tahoma, sans-serif; text-shadow: rgba(0, 0, 0, 0.75) 0 2px; margin: 0 0 15px; font-size: 13px;}
-
-
-@media screen and (max-width: 768px),
-       screen and (max-width: 1024px) {
-  header {
-    height: 75px;
-    line-height: 75px;
-  }
-  .titulo {
-    font-size: 2.5em;
-    text-align: center;
-    padding: 0 10%;
-    width: 80%;
-  }
-  .estado-general {
-    font-size: 8em;
-  }
-}
-@media screen and (max-width: 768px) {
-  .divider {
-    background: none;
-    border-top: 1px solid #111;
-    border-bottom: 1px solid #333;
-    height: 0;
-    margin: 10px 0;
-    width: 100%;
-  }
-  .lineas .linea {
-    margin: 0 10%;
-    width: 80%;
-  }
-  .linea .icono.estado {
-    margin: 0 5%;
-  }
-  .linea .descripcion.estado {
-    clear: none;
-    float: left;
-    line-height: 50px;
-    text-align: left;
-    width: 120px;
-  }
-  
-  .linea .descripcion.detalle {
-    clear: none;
-    float: left;
-    text-align: center;
-    width: 180px;
-    padding-top: 5px;
-	padding-left: 30px;
-  }
-}
-@media screen and (min-width: 768px) and (max-width: 1024px) {
-  .lineas ul {
-    margin: 0 auto;
-    width: 530px;
-  }
-  .divider {
-    display: none;
-  }
-  .lineas .linea {
-    display: inline-block;
-    float: none;
-  }
 }

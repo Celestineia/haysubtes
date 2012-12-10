@@ -1,10 +1,12 @@
 <?php
 
-$date = (int) date('H');
+//0 - Sunday, 1 - Monday ... 6 - Saturday
+$dw = date( "w", $timestamp);
+$hour = (int) date('H');
 $sleeping = false;
 
-if ($date >= 23 || $date < 5) {
-    $sleeping = true;
+if (($dw == 0 && ($hour >= 23 || $hour < 8)) || ($dw != 0 && ($hour >= 23 || $hour < 5))) {
+	$sleeping = true;
 }
 
 function file_get_contents_utf8($fn) {
