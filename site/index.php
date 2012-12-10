@@ -89,6 +89,10 @@ function getGlobalStatus($data) {
     $funcionando = 0;
 
     foreach ($data as $line => $obj) {
+    	//Salteamos la línea urquiza porque no la usamos
+        if ($line == 'U') {
+    		break;
+    	}
         if ($obj->status === 'NORMAL') {
             $funcionando++;
         }
@@ -107,7 +111,6 @@ function getGlobalStatus($data) {
         if ($obj->status === 'SLEEPING') {
             $status = 'Shh...';
             $funcionando++; // Asi el checkeo despues no da 'NO'
-            break;
         }
     }
 
@@ -123,6 +126,10 @@ function getTweetText($data) {
     $funcionando = 0;
 
     foreach ($data as $line => $obj) {
+    	//Salteamos la línea urquiza porque no la usamos
+    	if ($line == 'U') {
+    		break;
+    	}
         if ($obj->status === 'NORMAL') {
             $funcionando++;
         }
@@ -141,7 +148,6 @@ function getTweetText($data) {
         if ($obj->status === 'SLEEPING') {
             $status = '&iexcl;Oh! Los subtes est&aacute;n durmiendo';
             $funcionando++;
-            break;
         }
     }
 
