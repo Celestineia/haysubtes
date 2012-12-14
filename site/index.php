@@ -89,7 +89,6 @@ function getGlobalStatus($data) {
     $funcionando = 0;
 
     foreach ($data as $line => $obj) {
-    	//Salteamos la línea urquiza porque no la usamos
         if ($line == 'U') {
     		break;
     	}
@@ -126,7 +125,6 @@ function getTweetText($data) {
     $funcionando = 0;
 
     foreach ($data as $line => $obj) {
-    	//Salteamos la línea urquiza porque no la usamos
     	if ($line == 'U') {
     		break;
     	}

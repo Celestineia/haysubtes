@@ -50,38 +50,74 @@ function getStatusText($line) {
     return $status;
 }
 
-function getDescriptionText($line) {
+function getStationsForLine($name) {
+
+	$estaciones = array();
+
+	$file_handle = fopen("estaciones.txt", "rb");
+
+	while (!feof($file_handle) ) {
+
+		$line_of_text = fgets($file_handle);
+		$parts = explode(',', $line_of_text);
+		
+		if (strcmp($parts[0], $name) == 0) {
+			//Removing line name
+			unset($parts[0]);
+			$parts = array_values($parts);
+			$estaciones = $parts;
+		}
+
+	}
+
+	fclose($file_handle);
+	
+	return $estaciones;
+}
+
+function getDescriptionText($line, $name = '') {
     $status = '';
+    $data = array();
     switch ($line->status) {
         case 'REDUCED':
 
         	preg_match('/estaciones: (.*?) y (.*?)\s\d/', $line->message, $data);
 
-			//Capitalizing
-			$data[1] = ucwords(strtolower($data[1]));
-			$data[2] = ucwords(strtolower($data[2]));
-            $status = $data[1] . "<br/>" . $data[2];
-
-            //No estoy orgulloso de esto. Hay que arreglarlo
-
+            //No estoy orgulloso de esto.
             if (empty($data[1])) {
             	preg_match('/ENTRE (.*?) Y (.*?)\s\d/', $line->message, $data);
-				//Capitalizing
-				$data[1] = ucwords(strtolower($data[1]));
-				$data[2] = ucwords(strtolower($data[2]));
-            	$status = $data[1] . "<br/>" . $data[2];
             }
 
             if (empty($data[1])) {
             	preg_match('/estaciones (.*?) Y (.*?)\s\d/', $line->message, $data);
-				//Capitalizing
-				$data[1] = ucwords(strtolower($data[1]));
-				$data[2] = ucwords(strtolower($data[2]));
-            	$status = $data[1] . "<br/>" . $data[2];
             }
+            
+            if (empty($data[1])) {
+            
+				//Si las expresiones regulares fallan, se busca el nombre entre la lista de estaciones
+				$estaciones = getStationsForLine($name);
+				//Saco acentos
+				array_push($data, '');
+				$line->message = strtr($line->message,'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ','aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+				$line->message = strtolower($line->message);
+				foreach ($estaciones as $estacion) {
+					$estacion = strtr(utf8_decode($estacion), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+					$estacion = strtolower($estacion);
+					if (strpos($line->message, $estacion) !== false) {
+						//Si encuentro la estacion en el mensaje la agrego a la lista
+						array_push($data, $estacion);
+					}
+				}
+			}
 
             break;
     }
+    
+    //Capitalizing
+	$data[1] = ucwords(strtolower($data[1]));
+	$data[2] = ucwords(strtolower($data[2]));
+    $status = $data[1] . "<br/>" . $data[2];
+    
     return $status;
 }
 function getGlobalStatus($data) {
@@ -89,6 +125,9 @@ function getGlobalStatus($data) {
     $funcionando = 0;
 
     foreach ($data as $line => $obj) {
+        if ($line == 'U') {
+    		break;
+    	}
         if ($obj->status === 'NORMAL') {
             $funcionando++;
         }
@@ -107,7 +146,6 @@ function getGlobalStatus($data) {
         if ($obj->status === 'SLEEPING') {
             $status = 'Shh...';
             $funcionando++; // Asi el checkeo despues no da 'NO'
-            break;
         }
     }
 
@@ -123,10 +161,17 @@ function getTweetText($data) {
     $funcionando = 0;
 
     foreach ($data as $line => $obj) {
+    	if ($line == 'U') {
+    		break;
+    	}
         if ($obj->status === 'NORMAL') {
             $funcionando++;
         }
         if ($obj->status === 'DELAYED') {
+            $status = 'Mmmh, algunos subtes andan... otros no :/';
+            $funcionando++;
+        }
+        if ($obj->status === 'CANCELLED') {
             $status = 'Mmmh, algunos subtes andan... otros no :/';
             $funcionando++;
         }
@@ -137,7 +182,6 @@ function getTweetText($data) {
         if ($obj->status === 'SLEEPING') {
             $status = '&iexcl;Oh! Los subtes est&aacute;n durmiendo';
             $funcionando++;
-            break;
         }
     }
 
@@ -157,7 +201,7 @@ $interrumpido->{'message'} = 'asdasdasd';
 
 $reduced = new stdClass();
 $reduced->{'status'} = 'REDUCED';
-$reduced->{'message'} = 'Servicio limitado entre estaciones FACULTAD DE MEDICINA y CONGRESO DE TUCUMAN 09:10 hs.';
+$reduced->{'message'} = 'Limitado LOS INCAS CALLAO 09:10 hs.';
 
 
 $data = json_decode(file_get_contents('http://haysubtes.com/subte.php'));
@@ -173,12 +217,20 @@ $data->B = $reduced;
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.3.0/build/cssreset/reset-min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    
+	<link rel="apple-touch-icon" href="images/fblogo.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="images/fblogo.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/fblogo.png">
+    
+	<link rel="stylesheet" href="css/add2home.css">
+	<script type="text/javascript" src="js/add2home.js" charset="utf-8"></script>
+	
     <link rel="stylesheet" type="text/css" href="css/responsive.css">
 
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  <meta name="description" content="Conocé el estado del Subte de Buenos Aires. Lineas A B C D E H y Premetro. Se actualiza cada 2 minutos."/>
+    <meta name="description" content="Conocé el estado del Subte de Buenos Aires. Lineas A B C D E H y Premetro. Se actualiza cada 2 minutos."/>
     <meta property="og:title" content="&iquest;Hay subtes? | Estado del subte de Buenos Aires. Lineas A B C D E H P"/>
     <meta property="og:type" content="website"/>
     <meta property="og:image" content="http://www.haysubtes.com/images/fblogo.png"/>
@@ -215,7 +267,7 @@ $data->B = $reduced;
           </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->A); ?></div>
-          <div class="descripcion detalle"><?php echo getDescriptionText($data->A); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->A, 'A'); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea b<?php echo getCSS($data->B); ?>">
@@ -224,7 +276,7 @@ $data->B = $reduced;
           </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->B); ?></div>
-          <div class="descripcion detalle"><?php echo getDescriptionText($data->B); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->B, 'B'); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea c<?php echo getCSS($data->C); ?>">
@@ -233,7 +285,7 @@ $data->B = $reduced;
           </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->C); ?></div>
-          <div class="descripcion detalle"><?php echo getDescriptionText($data->C); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->C, 'C'); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea d<?php echo getCSS($data->D); ?>">
@@ -242,7 +294,7 @@ $data->B = $reduced;
           </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->D); ?></div>
-          <div class="descripcion detalle"><?php echo getDescriptionText($data->D); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->D, 'D'); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea e<?php echo getCSS($data->E); ?>">
@@ -251,7 +303,7 @@ $data->B = $reduced;
           </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->E); ?></div>
-          <div class="descripcion detalle"><?php echo getDescriptionText($data->E); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->E, 'E'); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea h<?php echo getCSS($data->H); ?>">
@@ -260,16 +312,16 @@ $data->B = $reduced;
           </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->H); ?></div>
-          <div class="descripcion detalle"><?php echo getDescriptionText($data->H); ?></div>
+          <div class="descripcion detalle"><?php echo getDescriptionText($data->H, 'H'); ?></div>
         </li>
         <li class="divider"></li>
         <li class="linea p<?php echo getCSS($data->P); ?>">
           <div class="icono logo">
-            <img src="images/icons/Linea-P.png" alt="Estado subte linea P" />
+            <img src="images/icons/Linea-P.png" alt="Estado subte linea premetro" />
           </div>
           <div class="icono estado"></div>
           <div class="descripcion estado"><?php echo getStatusText($data->P); ?></div>
-          <div class="descripcion detalle"><?php echo getDescriptionText($data->P); ?></div>
+		  <div class="descripcion detalle"><?php echo getDescriptionText($data->P, 'P'); ?></div>
         </li>
         <li class="divider"></li>
       </ul>

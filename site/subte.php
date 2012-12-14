@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 $date = (int) date('H');
 $sleeping = false;
@@ -45,8 +45,8 @@ if (@$_GET['callback']) {
 
 // Settings
 $cachedir = 'cache/';
-// every 3 mins
-$cachetime = 60 * 2;
+// every 5 mins
+$cachetime = 60 * 5;
 $cacheext = 'cache';
 // $cachepage = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 // dont cache query string
